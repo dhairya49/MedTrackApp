@@ -1,98 +1,242 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import React from "react";
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from "react-native";
+import { useColorScheme } from "react-native";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const theme = useColorScheme();
+  const isDark = theme === "dark";
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const colors = {
+    bg: isDark ? "#000" : "#fff",
+    text: isDark ? "#fff" : "#000",
+    card: isDark ? "#121212" : "#f3f3f3",
+    input: isDark ? "#1e1e1e" : "#e9e9e9",
+  };
+
+  return (
+    <ScrollView style={[styles.container, { backgroundColor: colors.bg }]}>
+
+      {/* Header */}
+      <Text style={[styles.title, { color: colors.text }]}>
+        👋 Welcome Back
+      </Text>
+      <Text style={[styles.subtitle, { color: colors.text }]}>
+        Your health, simplified.
+      </Text>
+
+      {/* Search Bar */}
+      <TextInput
+        placeholder="Search medicines..."
+        placeholderTextColor={isDark ? "#aaa" : "#555"}
+        style={[styles.search, { backgroundColor: colors.input, color: colors.text }]}
+      />
+
+      {/* NEW — Browse Medicines Button */}
+      <TouchableOpacity
+        style={[styles.browseButton, { backgroundColor: isDark ? "#0a7d47" : "#0fb764" }]}
+        onPress={() => router.push("/browse-medicine")}
+      >
+        <Text style={styles.browseText}>Browse OTC Medicines</Text>
+      </TouchableOpacity>
+
+      {/* Quick Actions */}
+{/* Quick Actions - 2 Columns */}
+<View style={styles.actionGrid}>
+  {quickActions.map((item, index) => (
+    <TouchableOpacity
+      key={index}
+      style={[styles.actionBox, { backgroundColor: colors.card }]}
+      onPress={() => router.push(item.route)}
+    >
+      <Text style={styles.actionIcon}>{item.icon}</Text>
+      <Text style={[styles.actionLabel, { color: colors.text }]}>
+        {item.label}
+      </Text>
+    </TouchableOpacity>
+  ))}
+</View>
+
+
+      {/* Recommended Medicines */}
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Recommended</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {recommended.map((item, index) => (
+          <View key={index} style={[styles.medicineCard, { backgroundColor: colors.card }]}>
+            <Image source={{ uri: item.image }} style={styles.medImage} />
+            <Text style={[styles.medTitle, { color: colors.text }]}>{item.name}</Text>
+            <Text style={[styles.medSub, { color: isDark ? "#aaa" : "#666" }]}>{item.type}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* Machines Nearby */}
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Nearby Machines</Text>
+      {machines.map((item, index) => (
+        <View key={index} style={[styles.machineCard, { backgroundColor: colors.card }]}>
+          <Text style={[styles.machineName, { color: colors.text }]}>{item.name}</Text>
+          
+          {/* Fixed dark text visibility */}
+          <Text style={[styles.machineDist, { color: isDark ? "#bbb" : "#444" }]}>
+            {item.distance}
+          </Text>
+        </View>
+      ))}
+
+    </ScrollView>
   );
 }
 
+//
+// Dummy Data
+//
+const quickActions = [
+  { icon: "📷", label: "Scan QR", route: "/scan-qr" },
+  { icon: "💊", label: "Prescriptions", route: "/PrescriptionScreen" },
+  { icon: "🏪", label: "Machines", route: "/MachinesScreen" },
+  { icon: "🛒", label: "Cart", route: "/cart" }, // NEW BUTTON
+];
+
+
+const recommended = [
+  {
+    name: "Paracetamol",
+    type: "Tablet",
+    image: "https://i.imgur.com/8Km9tLL.png",
+  },
+  {
+    name: "Ibuprofen",
+    type: "Capsule",
+    image: "https://i.imgur.com/8Km9tLL.png",
+  },
+  {
+    name: "Vitamin C",
+    type: "Supplement",
+    image: "https://i.imgur.com/8Km9tLL.png",
+  },
+];
+
+const machines = [
+  { name: "City Center Machine", distance: "300m away" },
+  { name: "Tech Park Machine", distance: "1.2km away" },
+];
+
+//
+// Styles
+//
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    padding: 20,
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 26,
+    fontWeight: "700",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    fontSize: 16,
+    opacity: 0.6,
+    marginBottom: 20,
   },
+  search: {
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+
+  // NEW — Browse Medicines Button
+  browseButton: {
+    padding: 15,
+    borderRadius: 14,
+    marginBottom: 20,
+  },
+  browseText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 25,
+  },
+  actionCard: {
+    width: "30%",
+    padding: 20,
+    borderRadius: 16,
+    alignItems: "center",
+  },
+  // actionIcon: {
+  //   fontSize: 30,
+  // },
+  // actionLabel: {
+  //   marginTop: 10,
+  //   fontSize: 14,
+  //   fontWeight: "500",
+  // },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    marginVertical: 15,
+  },
+  medicineCard: {
+    width: 120,
+    padding: 10,
+    borderRadius: 16,
+    marginRight: 15,
+    alignItems: "center",
+  },
+  medImage: {
+    width: 80,
+    height: 80,
+  },
+  medTitle: {
+    fontSize: 15,
+    marginTop: 10,
+  },
+  medSub: {
+    fontSize: 12,
+    opacity: 0.6,
+  },
+  machineCard: {
+    padding: 18,
+    borderRadius: 14,
+    marginBottom: 12,
+  },
+  machineName: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  machineDist: {
+    marginTop: 4,
+    fontSize: 13,
+  },
+  actionGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  marginBottom: 25,
+},
+
+actionBox: {
+  width: "48%",     // Two boxes per row
+  paddingVertical: 20,
+  borderRadius: 16,
+  alignItems: "center",
+  marginBottom: 14, // gap between rows
+},
+
+actionIcon: {
+  fontSize: 32,
+},
+
+actionLabel: {
+  marginTop: 8,
+  fontSize: 14,
+  fontWeight: "600",
+},
+
 });

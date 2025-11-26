@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1",
+    "name": "Paracetamol 500mg",
+    "price": "32",
+    "image": "https://picsum.photos/seed/paracetamol/300",
+    "isPrescription": false
+  },
+  {
+    "id": "2",
+    "name": "Azithromycin 250mg",
+    "price": "98",
+    "image": "https://picsum.photos/seed/azithro/300",
+    "isPrescription": true
+  },
+  {
+    "id": "3",
+    "name": "Cough Syrup (Honey & Ginger)",
+    "price": "120",
+    "image": "https://picsum.photos/seed/cough/300",
+    "isPrescription": false
+  },
+  {
+    "id": "4",
+    "name": "Cetirizine 10mg",
+    "price": "25",
+    "image": "https://picsum.photos/seed/cetirizine/300",
+    "isPrescription": false
+  },
+  {
+    "id": "5",
+    "name": "Amoxicillin 500mg",
+    "price": "110",
+    "image": "https://picsum.photos/seed/amox/300",
+    "isPrescription": true
+  },
+  {
+    "id": "6",
+    "name": "ORS Hydration Powder",
+    "price": "18",
+    "image": "https://picsum.photos/seed/ors/300",
+    "isPrescription": false
+  },
+  {
+    "id": "7",
+    "name": "Burnol Antiseptic Cream",
+    "price": "45",
+    "image": "https://picsum.photos/seed/burnol/300",
+    "isPrescription": false
+  },
+  {
+    "id": "8",
+    "name": "Ibuprofen 400mg",
+    "price": "40",
+    "image": "https://picsum.photos/seed/ibu/300",
+    "isPrescription": false
+  },
+  {
+    "id": "9",
+    "name": "Vitamin C Chewable",
+    "price": "80",
+    "image": "https://picsum.photos/seed/vitc/300",
+    "isPrescription": false
+  },
+  {
+    "id": "10",
+    "name": "Digene Antacid Tablets",
+    "price": "65",
+    "image": "https://picsum.photos/seed/digene/300",
+    "isPrescription": false
+  },
+  {
+    "id": "11",
+    "name": "Metformin 500mg",
+    "price": "50",
+    "image": "https://picsum.photos/seed/metformin/300",
+    "isPrescription": true
+  },
+  {
+    "id": "12",
+    "name": "Soframycin Skin Cream",
+    "price": "36",
+    "image": "https://picsum.photos/seed/sofra/300",
+    "isPrescription": false
+  }
+]

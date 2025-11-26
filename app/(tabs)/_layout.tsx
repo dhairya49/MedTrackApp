@@ -1,33 +1,61 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Tabs } from "expo-router";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarStyle: { backgroundColor: "#000" },
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#777",
+      }}
+    >
+      {/* HOME */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
         }}
       />
+
+      {/* MACHINES */}
       <Tabs.Screen
-        name="explore"
+        name="MachinesScreen"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="storefront"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      {/* PRESCRIPTIONS */}
+      <Tabs.Screen
+        name="PrescriptionScreen"
+        options={{
+          title: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="file-document" size={size} color={color} />
+          ),
+        }}
+      />
+
+      {/* PROFILE */}
+      <Tabs.Screen
+        name="ProfileScreen"
+        options={{
+          title: "",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
