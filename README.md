@@ -1,4 +1,4 @@
-```md
+```
 # MedTrack – Smart Prescription & Medicine Vending App  
 *A complete prototype for medicine access, vending machine integration, and digital prescriptions.*
 
